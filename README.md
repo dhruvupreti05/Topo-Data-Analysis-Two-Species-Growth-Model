@@ -2,8 +2,6 @@
 
 This project relates to applying methods in Topological Data Analysis (TDA) to the Kardar–Parisi–Zhang (KPZ) equation while modeling two species growth models. 
 
---
-
 ## References
 
 - Schütz, G. M., & Wehefritz–Kaufmann, B. (2017). [Kardar-Parisi-Zhang modes in d-dimensional directed polymers.](https://www.math.purdue.edu/~ebkaufma/PhysRevE.96.032119.pdf) Physical Review E, 96(3), 032119.
