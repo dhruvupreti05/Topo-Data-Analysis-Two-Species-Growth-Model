@@ -1,17 +1,48 @@
-#! /bin/bash
+#!/bin/bash
 
-set -e
+set -euo pipefail
 
-git fetch overleaf
-git checkout main
-git merge overleaf/master
+REPO=$(git rev-parse --show-toplevel)
+MAX_RETRIES=5
 
-mkdir -p notes
+for attempt in $(seq 1 "$MAX_RETRIES"); do
+    echo "Sync attempt $attempt..."
 
-for file in *.tex; do
-    [ -e "$file" ] || continue
-    git mv "$file" notes/
+    TMPDIR=$(mktemp -d)
+
+    cleanup() {
+        git -C "$REPO" worktree remove --force "$TMPDIR" >/dev/null 2>&1 || rm -rf "$TMPDIR"
+    }
+
+    git -C "$REPO" fetch origin main
+    git -C "$REPO" fetch overleaf master
+
+    git -C "$REPO" worktree add --detach "$TMPDIR" origin/main >/dev/null
+
+    rm -rf "$TMPDIR/notes"
+    mkdir -p "$TMPDIR/notes"
+
+    git -C "$REPO" archive overleaf/master '*.tex' | tar -x -C "$TMPDIR/notes"
+
+    git -C "$TMPDIR" add -A notes
+
+    if git -C "$TMPDIR" diff --cached --quiet; then
+        echo "No notes changes to commit."
+        cleanup
+        exit 0
+    fi
+
+    git -C "$TMPDIR" commit -m "sync notes from Overleaf"
+
+    if git -C "$TMPDIR" push origin HEAD:main; then
+        echo "Successfully synced notes from Overleaf."
+        cleanup
+        exit 0
+    fi
+
+    echo "Push was rejected because GitHub changed. Retrying..."
+    cleanup
 done
 
-git commit -m "retrieve .tex documents from overleaf"
-git push origin main
+echo "Failed to push after $MAX_RETRIES attempts."
+exit 1
