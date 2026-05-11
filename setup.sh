@@ -1,6 +1,12 @@
 #!/bin/bash
 set -e
 
+set -a
+source .env
+set +a
+
+git remote add overleaf https://git.overleaf.com/$OVERLEAF_ID
+
 python3 -m venv .venv
 source .venv/bin/activate
 pip install --upgrade pip
