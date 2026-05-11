@@ -1,17 +1,32 @@
 \documentclass{article}
 
 \input{codeblocks}
-\usepackage{amsmath, amssymb, fullpage, hyperref, fullpage, xcolor, minted, tcolorbox} 
+\usepackage{amsmath, amssymb, fullpage, hyperref, xcolor, minted, tcolorbox, enumitem} 
 \tcbuselibrary{minted, breakable}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{\medskipamount}
 
 \begin{document}
 
-\title{Topological Data Analysis Notes}
-\author{Dhruv Upreti \and Esha Sury}
-\maketitle
-
 \section*{Introduction}
 
-These notes follow \href{https://arxiv.org/abs/1710.04019}{Chazal and Michel}. Topological data analysis 
+These notes follow \href{https://arxiv.org/abs/1710.04019}{Chazal and Michel}. Topological Data Analysis (TDA) emerged from work in applied (algebraic) topology and computational geometry. TDA provides methods to exploit the topological and geometric structures of data that are often represented as points in Euclidean or more general metric spaces. 
+
+Many standard methods in TDA rely on the following a standard pipeline:
+
+\begin{enumerate}
+    \item First, data is treated as a finite set of points with a distance or similarity measure. The choice of metric is important because it determines what geometric or topological features become visible.
+
+    \item Second, a continuous structure on top of the point cloud, usually a \href{https://en.wikipedia.org/wiki/Simplicial_complex}{simplicial complex} or a family of simplicial complexes called a filtration, which captures the data at different scales is built. 
+
+    \item Third topological or geometric information is extracted from these structures, often using methods such as \href{https://en.wikipedia.org/wiki/Persistent_homology}{persistent homology}.
+
+    \item Finally, these extracted features can be used for visualization, interpretation, or as inputs to machine learning models.
+\end{enumerate}
+
+\section*{Metric spaces, Covers and Simplicial Complexes}
+
+
 
 \end{document}
