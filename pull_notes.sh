@@ -5,22 +5,33 @@ set -e
 REPO=$(git rev-parse --show-toplevel)
 TMPDIR=$(mktemp -d)
 
-trap 'git -C "$REPO" worktree remove --force "$TMPDIR" >/dev/null 2>&1 || rm -rf "$TMPDIR"' EXIT
+trap 'rm -rf "$TMPDIR"; git -C "$REPO" worktree prune >/dev/null 2>&1' EXIT
 
 git -C "$REPO" fetch origin main
 git -C "$REPO" fetch overleaf master
 git -C "$REPO" worktree add --detach "$TMPDIR" origin/main
 
-rm -rf "$TMPDIR/notes"
-mkdir -p "$TMPDIR/notes"
+mkdir -p "$TMPDIR/notes/pdfs"
 
 git -C "$REPO" archive overleaf/master '*.tex' | tar -x -C "$TMPDIR/notes"
 
-git -C "$TMPDIR" add -A notes
+cd "$TMPDIR/notes"
 
-if git -C "$TMPDIR" diff --cached --quiet; then
-    echo "No changes to commit."
+for file in *.tex; do
+    [ -e "$file" ] || continue
+    [[ "$file" == _* ]] && continue
+
+    pdflatex -interaction=nonstopmode -halt-on-error "$file"
+    mv "${file%.tex}.pdf" pdfs/
+done
+
+cd "$TMPDIR"
+
+git add -A notes
+
+if ! git diff --cached --quiet; then
+    git commit -m "sync notes and PDFs from Overleaf"
+    git push origin HEAD:main
 else
-    git -C "$TMPDIR" commit -m "sync notes from Overleaf"
-    git -C "$TMPDIR" push origin HEAD:main
+    echo "No changes to commit."
 fi
