@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Sets up virtual environment as .venv, adds Overleaf project as a remote Git repository, installs relevant libraries from requirements.txt and adds virtual environment to Python Kernal of Jupyter Notebook.
+# Set virtual environment as .venv, adds Overleaf project as remote Git repository, installs libraries from requirements.txt and adds .venv to Python Kernal for Jupyter
 
 set -e
 
