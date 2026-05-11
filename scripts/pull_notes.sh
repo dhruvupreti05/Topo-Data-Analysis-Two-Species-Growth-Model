@@ -1,10 +1,6 @@
 #!/bin/bash
 
-"""
-This bash script pulls LaTeX files from Overleaf, compiles them with pdfLatex
-and pushes .tex files, their respective .pdf's and figures all to remote repository 
-under notes/
-"""
+# Script pulls LaTeX files from Overleaf, compiles with pdfLatex, pushes .tex files, their respective .pdf's and figures to remote under notes/
 
 set -e
 
