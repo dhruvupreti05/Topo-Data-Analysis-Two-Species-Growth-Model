@@ -6,7 +6,7 @@ source .env
 set +a
 
 if ! git remote | grep -q 'overleaf'; then
-    git remote add overleaf "https://git.overleaf.com/$OVERLEAF_ID"
+    git remote add overleaf "https://git@git.overleaf.com/$OVERLEAF_ID"
     echo "Added Overleaf remote."
 else
     echo "Overleaf remote exists"
