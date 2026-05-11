@@ -1,4 +1,4 @@
-# Topo-Data-Analysis-Two-Species-Growth-Model
+# Topological Data Analysis for Two Species Growth Models
 
 This project relates to applying methods in Topological Data Analysis (TDA) to the Kardar–Parisi–Zhang (KPZ) equation while modeling two species growth models. 
 
