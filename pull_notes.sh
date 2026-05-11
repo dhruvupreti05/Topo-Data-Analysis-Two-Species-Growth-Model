@@ -11,6 +11,7 @@ git -C "$REPO" fetch origin main
 git -C "$REPO" fetch overleaf master
 git -C "$REPO" worktree add --detach "$TMPDIR" origin/main
 
+rm -rf "$TMPDIR/notes"
 mkdir -p "$TMPDIR/notes/pdfs"
 
 git -C "$REPO" archive overleaf/master '*.tex' | tar -x -C "$TMPDIR/notes"
@@ -19,19 +20,22 @@ cd "$TMPDIR/notes"
 
 for file in *.tex; do
     [ -e "$file" ] || continue
-    [[ "$file" == _* ]] && continue
 
-    pdflatex -interaction=nonstopmode -halt-on-error "$file"
-    mv "${file%.tex}.pdf" pdfs/
+    if grep -q '\\documentclass' "$file"; then
+        pdflatex -interaction=nonstopmode -halt-on-error "$file"
+        mv "${file%.tex}.pdf" pdfs/
+    else
+        echo "Skipping $file"
+    fi
 done
 
 cd "$TMPDIR"
 
 git add -A notes
 
-if ! git diff --cached --quiet; then
+if git diff --cached --quiet; then
+    echo "No changes to commit."
+else
     git commit -m "sync notes and PDFs from Overleaf"
     git push origin HEAD:main
-else
-    echo "No changes to commit."
 fi
