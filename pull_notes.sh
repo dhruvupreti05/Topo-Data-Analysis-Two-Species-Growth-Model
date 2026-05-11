@@ -14,7 +14,7 @@ git -C "$REPO" worktree add --detach "$TMPDIR" origin/main
 rm -rf "$TMPDIR/notes"
 mkdir -p "$TMPDIR/notes/pdfs"
 
-git -C "$REPO" archive overleaf/master '*.tex' | tar -x -C "$TMPDIR/notes"
+git -C "$REPO" archive overleaf/master | tar -x -C "$TMPDIR/notes"
 
 cd "$TMPDIR/notes"
 
