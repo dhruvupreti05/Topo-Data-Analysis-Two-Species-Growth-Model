@@ -11,6 +11,8 @@ set -e
 REPO=$(git rev-parse --show-toplevel)
 TMPDIR=$(mktemp -d)
 
+cd "$REPO"
+
 trap 'rm -rf "$TMPDIR"; git -C "$REPO" worktree prune >/dev/null 2>&1' EXIT
 
 git -C "$REPO" fetch origin main
