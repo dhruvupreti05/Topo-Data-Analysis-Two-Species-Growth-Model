@@ -8,6 +8,9 @@ and adds virtual environment to the Python Kernal of Jupyter Notebook.
 
 set -e
 
+REPO=$(git rev-parse --show-toplevel)
+cd "$REPO"
+
 set -a
 source .env
 set +a
