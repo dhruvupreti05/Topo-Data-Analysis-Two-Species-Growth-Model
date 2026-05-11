@@ -1,4 +1,11 @@
 #!/bin/bash
+
+"""
+This bash script sets up virtual environment as .venv, adds Overleaf project
+as a remote Git repository, installs relevant libraries from requirements.txt 
+and adds virtual environment to the Python Kernal of Jupyter Notebook.
+"""
+
 set -e
 
 set -a
