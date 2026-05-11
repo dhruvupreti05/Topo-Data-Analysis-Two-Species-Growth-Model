@@ -1,0 +1,37 @@
+\usepackage[most]{tcolorbox}
+\usepackage{minted}
+
+\tcbset{
+  codebox/.style={
+    listing engine=minted,
+    colback=gray!10,
+    colframe=gray!40,
+    boxsep=4pt,
+    arc=2pt,
+    outer arc=2pt,
+    top=2pt, bottom=2pt, left=4pt, right=4pt,
+    listing only,
+    breakable,
+    fonttitle=\scriptsize\bfseries,
+    coltitle=black,
+    colbacktitle=gray!20,
+    minted options={
+      linenos=false,
+      breaklines=true,
+      fontsize=\small,
+      autogobble=true
+    },
+  }
+}
+
+\newtcblisting{python}{
+  codebox,
+  title=Python,
+  minted language=python,
+}
+
+\newtcblisting{rcode}{
+  codebox,
+  title=R,
+  minted language=r,
+}
