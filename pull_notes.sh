@@ -5,14 +5,10 @@ set -e
 REPO=$(git rev-parse --show-toplevel)
 TMPDIR=$(mktemp -d)
 
-cleanup() {
-    git -C "$REPO" worktree remove --force "$TMPDIR" >/dev/null 2>&1 || rm -rf "$TMPDIR"
-}
-trap cleanup EXIT
+trap 'git -C "$REPO" worktree remove --force "$TMPDIR" >/dev/null 2>&1 || rm -rf "$TMPDIR"' EXIT
 
 git -C "$REPO" fetch origin main
 git -C "$REPO" fetch overleaf master
-
 git -C "$REPO" worktree add --detach "$TMPDIR" origin/main
 
 rm -rf "$TMPDIR/notes"
@@ -24,8 +20,7 @@ git -C "$TMPDIR" add -A notes
 
 if git -C "$TMPDIR" diff --cached --quiet; then
     echo "No changes to commit."
-    exit 0
+else
+    git -C "$TMPDIR" commit -m "sync notes from Overleaf"
+    git -C "$TMPDIR" push origin HEAD:main
 fi
-
-git -C "$TMPDIR" commit -m "sync notes from Overleaf"
-git -C "$TMPDIR" push origin HEAD:main
