@@ -1,0 +1,85 @@
+\documentclass{article}
+
+% libraries
+\usepackage{amsmath, amssymb, hyperref, fullpage, enumitem, graphicx, subcaption, float, braket} 
+
+% ignore these ... 
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{\medskipamount}
+\setcounter{secnumdepth}{-2}
+
+\begin{document}
+
+\section{Totally Asymmetric Diffusion on a Ring}
+
+These notes follow \href{https://sigma-journal.com/2010/039/sigma10-039.pdf}{Kaufmann}. Note that the two species asymmetric diffusion model consists of two species of particles, $A$ and $B$, diffusing asymmetrically in one dimension. The following processes take place:
+
+\[
+\begin{array}{lll}
+A + 0 \to 0 + A & \text{with rate } \Gamma_R, 
+& 0 + A \to A + 0 \quad \text{with rate } \Gamma_L, \\[4pt]
+B + 0 \to 0 + B & \text{with rate } \Gamma_R, 
+& 0 + B \to B + 0 \quad \text{with rate } \Gamma_L, \\[4pt]
+A + B \to B + A & \text{with rate } \Gamma_R, 
+& B + A \to A + B \quad \text{with rate } \Gamma_L.
+\end{array}
+\] 
+
+In the totally asymmetric case, $\Gamma_L =0$ meaning that particles $A$ don't diffuse to the left. The image in the Figure 1(a) below shows the asymmetric diffusion with periodic boundary conditions (on the ring $\mathbb{Z}/L\mathbb{Z}$). Note from the asymmetric model both $A$ and $B$ can move into vacancies, but when $A$ and $B$ meet, $A$ has priority since $A + B \to B + A$ and $B + A \not\to A + B$. Therefore $A$ are called a \textbf{first-class} particles and $B$ are called a \textbf{second-class} particles.  
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.4\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/asym_diffusion_on_ring.png}
+        \caption{Black dots correspond to $A$, grey dots to $B$ and open dots to $0$ or vacancies.}
+    \end{subfigure} \hfill
+    \begin{subfigure}[b]{0.4\linewidth}
+        \centering
+    \includegraphics[width=\linewidth]{figures/asym_diffusion_on_ring.png}
+        \caption{}
+    \end{subfigure}
+    \caption{}
+\end{figure}
+
+\subsection{Master Equation and Markov Generator}
+
+In math and physics \href{https://en.wikipedia.org/wiki/Master_equation}{master equations} are used to describe the time evolution of a system that can be modeled as being in a probabilistic combination of states at any given time. In a nutshell in a master equation it is said that
+
+\[\frac{d}{dt}p_t(\eta) = \text{prob. system in configuration $\eta$ at time $t$} = \text{prob. flowing into $\eta$} - \text{prob. flowing out of $\eta$}.\]
+
+Take an example of a two state system where the probability of being in each state is $p_1(t)$ for state $1$ and $p_2(t)$ for state $2$ and the rates of transition are given as 
+
+\[1 \to 2 \text{ with rate: $r$}, \quad 2\to1 \text{ with rate: $s$}.\]
+
+Note that then the master equation can be written as,
+
+\[\frac{dp_1}{dt} = sp_2 -rp_1, \quad \frac{dp_2}{dt} = rp_1 - sp_2 \Rightarrow \frac{d}{dt}\begin{pmatrix}p_1 \\ p_2 \end{pmatrix} = \begin{pmatrix} -r & s \\ r & -s \end{pmatrix} \begin{pmatrix} p_1 \\ p_2 \end{pmatrix}.\]
+
+The matrix is known as the \textbf{Markov generator} and the off diagonal elements are the transition rates while the diagonal entries are the negative escape rates (to make sure the total probability is conserved so that $p_1(t) + p_2(t) = 1$). For a system with many states $\eta_1, \eta_2, \dots$ we say that $W_{\eta,\eta'}$ is the jump rate from configuration $\eta$ to $\eta'$. The master equation then becomes,
+
+\[\frac{d}{dt}p_t(\eta) = \sum_{\eta\neq \eta'}\left[W_{\eta,\eta'} p_t(\eta) - W_{\eta',\eta}p_t(\eta)\right].\]
+
+Written in matrix form this is,
+
+\[\frac{d}{dt}\ket{P(t)} = M\ket{P(t)}.\]
+
+Where $\ket{P(t)}$ is the vector of all probabilities. Note that this is exactally the imaginary part of the time dependent Schrodinger equation, where the Markov generator $M$ represents the Hamiltonian. 
+
+% Write more stuff on the connection between the schrodinger equation and the markov generator....
+
+For the diffusion model we say that $\eta$ is the arrangement of $A,B$ and $0$ around the ring. Since the allowed moves are just the nearest neighbor swaps the configurations connected to $\eta$ are just configurations obtained by swapping neighboring sites so, 
+
+\[\frac{d}{dt} p_t(\eta) = \sum_j \left[c(j,j+1,\eta^{j,j+1})p_t(\eta^{j,j+1}) - c(j,j+1,\eta)p_t(\eta)\right].\]
+
+Here $\eta^{j,j+1}$ is the configuration obtained by changing the sites $j$ and $j+1$ from $\eta$
+
+\subsection{}
+
+\section{Kardar–Parisi–Zhang Equation}
+
+\section{Bethe Ansatz}
+
+
+
+\end{document}
