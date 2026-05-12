@@ -1,5 +1,10 @@
 \documentclass{article}
 
+% cursor parking lot -----
+% |     |     |     |     |
+% |     |     |     |     |
+% ------------------------
+
 % libraries
 \usepackage{amsmath, amssymb, hyperref, fullpage, enumitem, graphicx, subcaption, float, braket} 
 
@@ -64,15 +69,73 @@ Written in matrix form this is,
 
 \[\frac{d}{dt}\ket{P(t)} = M\ket{P(t)}.\]
 
-Where $\ket{P(t)}$ is the vector of all probabilities. Note that this is exactally the imaginary part of the time dependent Schrodinger equation, where the Markov generator $M$ represents the Hamiltonian. 
+Where $\ket{P(t)}$ is the vector of all probabilities. Note that this is exactally the \href{https://en.wikipedia.org/wiki/Schr%C3%B6dinger_equation#Time-dependent_equation}{time dependent Schrodinger} equation in imaginary time, where the negative of the Markov generator, $-M$, represents the Hamiltonian. The solution is known to be,
 
-% Write more stuff on the connection between the schrodinger equation and the markov generator....
+\[\ket{P(t)} = e^{Mt}\ket{P(0)} = e^{-Ht}\ket{P(0)}.\]
+
+Notice how this differs from the real time solution of the Schrodinger equation where $\ket{\psi(t)} = e^{-iHt}\ket{\psi(0)}$. Fundamentally the difference is that the factor $e^{-iHt}$ oscillates while $e^{-Ht}$ decays. Therefore in a stochastic process the eigenvalues of $H$ are not physical energies, they are decay or \textbf{relaxation times}. 
 
 For the diffusion model we say that $\eta$ is the arrangement of $A,B$ and $0$ around the ring. Since the allowed moves are just the nearest neighbor swaps the configurations connected to $\eta$ are just configurations obtained by swapping neighboring sites so, 
 
 \[\frac{d}{dt} p_t(\eta) = \sum_j \left[c(j,j+1,\eta^{j,j+1})p_t(\eta^{j,j+1}) - c(j,j+1,\eta)p_t(\eta)\right].\]
 
-Here $\eta^{j,j+1}$ is the configuration obtained by changing the sites $j$ and $j+1$ from $\eta$
+Here $\eta^{j,j+1}$ is the configuration obtained by changing the sites $j$ and $j+1$ from $\eta$. In the formula above the term,
+
+\[-c(j,j+1,\eta)p_t(\eta)\]
+
+represents the "loss" and states if the system is in configuration $\eta$ then the pair at sites $j$ and $j+1$ may exchange with a rate $-c(j,j+1,\eta)$. The term,
+
+\[c(j,j+1,\eta^{j,j+1})p_t(\eta^{j,j+1})\]
+
+is the "gain" term and states if the system is in configuration $\eta^{j,j+1}$ then exchanging the cites will produce the configuration $\eta$. 
+
+\subsection{Asymmetric Diffusion Hamiltonian}
+
+In order to write the full Hamiltonian, we realize that the site can be in one of three states which are represented as basis vectors of $\mathbb{C}^3$ with the following labeling: 
+
+\[A = \begin{pmatrix}1 \\ 0 \\ 0\end{pmatrix}\sim 1, \quad B = \begin{pmatrix}0 \\ 1 \\ 0\end{pmatrix}\sim 2,\quad 0 = \begin{pmatrix}0 \\ 0 \\ 1\end{pmatrix}\sim 3\]
+
+The full configuration on a ring of length $L$ then becomes the tensor product: $\left(\mathbb{C}^3\right)^{\otimes L}$. Now, recall that the asymmetric model has the moves,
+
+\[
+\begin{aligned}
+A + 0 &\to 0 + A &&\text{with rate } \Gamma_R,\\
+0 + A &\to A + 0 &&\text{with rate } \Gamma_L,\\
+B + 0 &\to 0 + B &&\text{with rate } \Gamma_R,\\
+0 + B &\to B + 0 &&\text{with rate } \Gamma_L,\\
+A + B &\to B + A &&\text{with rate } \Gamma_R,\\
+B + A &\to A + B &&\text{with rate } \Gamma_L.
+\end{aligned}
+\]
+
+Using the labels above,
+
+\[1=A, \quad 2=B, \quad 3=0,\]
+
+the right moving moves are exactally,
+
+\[\alpha\beta \rightarrow \beta \alpha, \quad \text{when $\alpha < \beta$ with exchange rate $\Gamma_R$}.\]
+
+The left moving moves are also,
+
+\[\beta\alpha\rightarrow \alpha\beta, \quad \text{when $\beta< \alpha$ with exchange rate $\Gamma_L$.}\]
+
+In order to define these exchanges the $3\times3$ matrix operator $E^{\alpha\beta}$ is used that turns basis state $\beta$ in to state $\alpha$, 
+
+\[E^{\alpha\beta}\ket{\gamma} = \delta_{\beta\gamma}\ket{\alpha}.\]
+
+On the on the site $j$ the exchange tensor is written as $E_{j}^{\alpha\beta} = I\otimes\cdots\otimes E_j^{\alpha\beta} \otimes\cdots\otimes I$. Therefore we see that the product $E^{\alpha\beta}_j E^{\beta\alpha}_{j+1}$ on a local pair $\ket{\beta,\alpha}$ is,
+
+\[E_{j}^{\alpha\beta} E_{j+1}^{\beta\alpha} \ket{\beta,\alpha} = \ket{\alpha,\beta}.\]
+
+Note that the master equation splits into two types of terms, the off diagonal parts which represent the transition terms and the diagonal part which represent the escape rate terms. For the Markov generator the off diagonal entries are positive transition rates while the diagonal entries are negative escape rates. For the Hamiltonian the opposite sign convention is used, since $H=-M$, so the off diagonal entries are negative transition rates and the diagonal entries are positive escape rates. Understanding this sign convention is key to the next part. 
+
+Recall the off diagonal transitions are exchanges of neighboring states so for $\alpha<\beta$ the exchange rate is $\Gamma_R$, and for $\alpha>\beta$ the exchange rate is $\Gamma_L$. If we define $D=\sqrt{\Gamma_R\Gamma_L}$, and $q=\sqrt{\Gamma_R/\Gamma_L}$ such that $Dq = \Gamma_R$ and $Dq^{-1}=\Gamma_L$ then the off diagonal term becomes,
+
+\[-Dq\sum_{\alpha<\beta} E^{\alpha\beta}_j E^{\beta\alpha}_{j+1} - Dq^{-1}\sum_{\alpha>\beta} E^{\alpha\beta}_j E^{\beta\alpha}_{j+1}.\]
+
+The diagonal escape term  
+
 
 \subsection{}
 
