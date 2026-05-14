@@ -1,0 +1,61 @@
+ \documentclass{article}
+
+% cursor parking lot please place 
+% your cursor here when you go away
+% so other's can work :) 
+% -------------------------
+% |     |     |     |     |
+% |     |     |     |     |
+% -------------------------
+
+% libraries
+\usepackage{amsmath, amssymb, hyperref, fullpage, enumitem, graphicx, subcaption, float, braket} 
+
+% code blocks
+\input{codeblocks}
+
+% ignore these ... 
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{\medskipamount}
+\setcounter{secnumdepth}{-2}
+
+\begin{document}
+
+These notes are produced by Esha Sury and Dhruv Upreti.
+
+\section{Asymmetric Simple Exclusion Process}
+
+This section follows notes on 
+
+\section{Kardar-Parisi-Zhang and Stochastic Burgers}
+
+\section{Kardar-Parisi-Zhang Modes in d-dimensional Directed Polymers}
+
+This section follows \href{https://www.math.purdue.edu/~ebkaufma/PhysRevE.96.032119.pdf}{``Kardar-Parisi-Zhang modes in d-dimensional directed polymers"}. 
+
+% Write some introduction
+
+\subsection{Example in d=3:}
+
+Take the start from a two-species asymmetric exclusion model on a ring with $L$ sites where each site $k$ is occupied by one of the three particle species written as $X_k$,
+
+\[A, \quad B, \quad \Phi\]
+
+Here $\Phi$ represents vacancy. The Markovian stochastic dynamics consists of nearest neighbor particle exchanges, $X_i X_{i+1} \to X_{i+1} X_{i}$, with the following rates,
+
+\begin{align*}
+    AB \to BA \text{ with rate $r_1$},& \quad BA \to AB \text{ with rate $r_2$} \\
+    A \Phi \to \Phi A \text{ with rate $r_3$}, & \quad \Phi A \to A \Phi \text{ with rate $r_4$} \\
+    B \Phi \to \Phi B \text{ with rate $r_5$}, & \quad \Phi B \to B \Phi \text{ with rate $r_6$} \\
+\end{align*}
+
+Where, 
+
+\[r_1+r_4+r_5 = r_2+r_3+r_6,\]
+
+to ensure equal equilibrium probabilities for all conformations of the polymer. Note this uniform distribution leads to a complete absence of stationary correlations in the thermodynamic limit $L\to\infty$. % Exalain further what this means ... ? ! 
+
+The link with the height function and the two-dimensional random path is as follows; with each of the three species, $A, B, \Phi$ I was n
+
+
+\end{document}

@@ -84,9 +84,27 @@ This is a set of $n$ algebraic equations for $n$ variables $p_1\cdots p_n$ which
 
 Note that the asymptotic Bethe equations only describes the energy in a large volume $L$, more precisely the Bethe equations capture all terms in the large $L$ expansion of the energy which scale as $\sim 1/L^k$ known as the powerlike corrections but miss exponential corrections of the kind $\sim e^{-mL}$ ($m$ is the particle's mass) which physically correspond to the effects of virtual particles propagating around the circle. % Note i need to get a better explanation for this since i dont understand this all that well 
 
+In a more general theory one could have a a larger spectrum of particles, and different types could transform into each other during scattering, giving the $S$-matrix actual matrix structure. Consider a model with $K$ particle types, where each particle can be in a linear combination of different types (or flavors) so its flavor state is in $\mathbb{C}^K$. For $n$ particles their state denoted as $A$ is an element of the tensor product,
 
+\[A\in H_1\otimes \cdots \otimes H_n, \quad H_i \subset \mathbb{C}^K.\]
 
+Choosing a basis $e_i$ in $\mathbb{C}^K$ we can write,
 
+\[A = \sum_{j_1=1}^K\cdots\sum_{j_n=1}^K A_{j_1\cdots j_n}e_{j_1}\otimes \cdots \otimes e_{j_n}.\]
+
+With this we define the $S$-matrix as a linear operator acting on the tensor product of the two spaces $H_i$,
+
+\[\hat{S_{ij}} \in \text{End}(H_i\otimes H_j).\]
+
+The $S$ matrix here has four indices, two for incoming particles and two for outgoing particles. If particles one has internal state $e_a\in H_1$ and particles two has internal state $e_b\in H_2$ then before scattering the two particle internal state is $e_a\otimes e_b$ so after scattering,
+
+\[\hat{S}_{12}(p_1,p_2)(e_1\otimes e_2) = \sum_{c,d}S^{cd}_{ab} e_c\otimes e_d.\]
+
+% write a comment on what is required for the Bethe ansatz.
+
+The Bethe equations for a theory of several particle types is similar to the equation above but the product of the $S$-matrices now acts on a state $A\in H_1\otimes \cdots \otimes H_n$, where it's given as,
+
+\[e^{ip_k L} \hat{S}_{k,k+1}\hat{S}_{k,k+2}\cdots \hat{S}_{k,n} \hat{S}_{k,1}\cdots \hat{S}_{k,k-1}A = A, \quad \text{for $k=1,\cdots ,n$}.\]
 
 \section{Example: 1D Spin-1/2 Heisenberg Chain}
 
