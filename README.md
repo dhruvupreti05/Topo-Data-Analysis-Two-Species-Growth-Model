@@ -12,4 +12,4 @@ Currently we are going through relevant research papers on Topological Data Anal
 - Wehefritz-Kaufmann, B. (2010). [Dynamical critical exponent for two-species totally asymmetric diffusion on a ring.](https://sigma-journal.com/2010/039/sigma10-039.pdf) SIGMA. Symmetry, Integrability and Geometry: Methods and Applications, 6, 039.
 - Chazal, F., & Michel, B. (2021). [An introduction to topological data analysis: fundamental and practical aspects for data scientists.](https://arxiv.org/pdf/1710.04019) Frontiers in artificial intelligence, 4, 667963.
 
-This work was created by the colaborative efforts of [Esha Sury](mailto:esury@purdue.edu) and [Dhruv Upreti](mailto:dupreti@purdue.edu). Mentorship was given by [Birgit Kaufmann](mailto:ebkaufma@purdue.edu).
+This work was created by [Esha Sury](mailto:esury@purdue.edu) and [Dhruv Upreti](mailto:dupreti@purdue.edu). Mentorship was given by [Birgit Kaufmann](mailto:ebkaufma@purdue.edu).
