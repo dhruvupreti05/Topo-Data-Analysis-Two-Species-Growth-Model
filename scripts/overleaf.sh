@@ -25,6 +25,12 @@ cd "$TMPDIR/notes"
 for file in *.tex; do
     [ -e "$file" ] || continue
 
+    if grep -Fxq '% git ignore this file' "$file"; then
+        echo "Ignoring $file"
+        rm -f "$file"
+        continue
+    fi
+
     if grep -q '\\documentclass' "$file"; then
         pdflatex -interaction=nonstopmode -halt-on-error "$file"
         mv "${file%.tex}.pdf" pdfs/
