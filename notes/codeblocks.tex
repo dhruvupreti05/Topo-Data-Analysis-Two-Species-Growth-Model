@@ -1,6 +1,3 @@
-\usepackage[most]{tcolorbox}
-\usepackage{minted}
-
 \tcbset{
   codebox/.style={
     listing engine=minted,
@@ -24,6 +21,12 @@
   }
 }
 
+\newtcblisting{bash}{
+  codebox,
+  title=Bash,
+  minted language=bash,
+}
+
 \newtcblisting{python}{
   codebox,
   title=Python,
@@ -37,7 +40,7 @@
 }
 
 \newtcblisting{mathematica}{
-    codebox,
-    title=Mathematica,
-    minted language=mathematica,
+  codebox,
+  title=Mathematica,
+  minted language=mathematica,
 }
