@@ -97,6 +97,9 @@ class MultiSpeciesExclusionProcess:
             path.append(path[-1] + self.proj_vectors[x])
         return np.array(path)
     
+    def get_chain(self):
+        return self.chain
+    
     def plot_path_3d(self):
         assert self.dimension == 3, "can only plot in 3d"
         path = self.get_path()
