@@ -26,4 +26,4 @@ python -m ipykernel install --user --name=repo-env --display-name "Repository En
 
 echo ""
 echo "Setup complete."
-echo "Activate the environment with: source .env/bin/activate"
+echo "Activate the environment with: source .venv/bin/activate"

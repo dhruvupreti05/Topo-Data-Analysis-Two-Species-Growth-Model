@@ -14,15 +14,12 @@ class MultiSpeciesExclusionProcess:
         assert sum(density) == 1.0, "density not normalized"
         assert all(rate >= 0 for rate in rates.values()), "rates must be nonnegative"
         
-        left_pairs = np.array([(i, (i + 1) % dimension) for i in range(dimension)])
-        right_pairs = np.array([ (pair[1], pair[0]) for pair in left_pairs])
-        assert np.isclose( sum(rates[tuple(key)] for key in left_pairs), sum(rates[tuple(key)] for key in right_pairs) ), "pairwise balance not imposed"
+        assert MultiSpeciesExclusionProcess.check_pairwise_balance(rates, dimension), "pairwise balance not imposed"
 
         self.dimension = dimension
         self.density = density
         self.rates = rates
         self.length = length
-
         self.proj_vectors = self.get_proj_vectors()
 
         self.chain = np.array([i for i, p in enumerate(self.density) for _ in range(int(p * self.length))])
@@ -41,7 +38,6 @@ class MultiSpeciesExclusionProcess:
 
         for alpha, beta, gamma in combinations(species, 3):
             lhs = (rates[(alpha, beta)] + rates[(beta, gamma)] + rates[(gamma, alpha)])
-
             rhs = (rates[(beta, alpha)] + rates[(gamma, beta)] + rates[(alpha, gamma)])
 
             if not np.isclose(lhs, rhs):
@@ -88,11 +84,15 @@ class MultiSpeciesExclusionProcess:
             self.chain[i], self.chain[j] = self.chain[j], self.chain[i]
 
     def simulate(self, steps=5000):
+        chains = [self.chain]
         for _ in range(steps):
             self.monte_carlo_step()
+            chains.append(self.chain)
+
+        return chains
 
     def get_path(self):
-        path = [np.array([0.0, 0.0])]
+        path = [np.zeros(self.dimension-1)]
         for x in self.chain:
             path.append(path[-1] + self.proj_vectors[x])
         return np.array(path)
@@ -100,8 +100,8 @@ class MultiSpeciesExclusionProcess:
     def get_chain(self):
         return self.chain
     
-    def plot_path_3d(self):
-        assert self.dimension == 3, "can only plot in 3d"
+    def plot_path_2d(self):
+        assert self.dimension == 3, "can only plot with d = 3"
         path = self.get_path()
 
         plt.figure(figsize=(6, 6))
@@ -112,3 +112,17 @@ class MultiSpeciesExclusionProcess:
         plt.title("projected directed polymer path, d = 3")
         plt.show()
 
+    def plot_path_3d(self):
+        assert self.dimension == 4, "can only plot with d = 4"
+        path = self.get_path()
+
+        fig = plt.figure(figsize=(6, 6))
+        ax = fig.add_subplot(111, projection="3d")
+        ax.plot(path[:, 0], path[:, 1], path[:, 2], "-o", markersize=2)
+        ax.set_xlabel("h1")
+        ax.set_ylabel("h2")
+        ax.set_zlabel("h3")
+        ax.set_title("projected directed polymer path, d = 4")
+        ax.set_box_aspect([1, 1, 1])
+
+        plt.show()
