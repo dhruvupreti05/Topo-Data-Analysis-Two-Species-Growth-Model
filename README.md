@@ -4,7 +4,7 @@ This project relates to applying methods in Topological Data Analysis (TDA) to t
 
 ## Current Goals
 
-Currently we are going through relevant papers on Topological Data Analysis and Totally Asymmetric Diffusion on a Ring and updating notes to `notes/` folder.   
+Currently creating Monte Carlo simulation for multi species diffusion and applying different TDA libraries to solve for parameters like the Betti number of the graph.
 
 ## References
 
