@@ -3,8 +3,35 @@ class creates multi species exclusion process.
 """
 
 import numpy as np
+import numba as nb
 from itertools import combinations
 import matplotlib.pyplot as plt
+
+"""
+monte carlo simulation with no just in time compiling.  
+"""
+@nb.njit 
+def _jit_simulate(chain, rates_matrix, max_rate, steps):
+    length = len(chain)
+    history = np.zeros((steps + 1, length), dtype=chain.dtype)
+    history[0] = chain.copy()
+    
+    current_chain = chain.copy()
+    
+    for step in range(1, steps + 1):
+        i = np.random.randint(length)
+        j = (i + 1) % length
+        
+        species_i = current_chain[i]
+        species_j = current_chain[j]
+        rate = rates_matrix[species_i, species_j]
+        
+        if np.random.rand() < rate / max_rate:
+            current_chain[i], current_chain[j] = current_chain[j], current_chain[i]
+            
+        history[step] = current_chain.copy()
+        
+    return history
 
 class MultiSpeciesExclusionProcess:
     def __init__(self, dimension, density, rates, length, shuffle=True):
@@ -20,16 +47,15 @@ class MultiSpeciesExclusionProcess:
         self.density = density
         self.rates = rates
         self.length = length
-        self.proj_vectors = self.get_proj_vectors()
+        self.proj_vectors = self.get_projected_vectors()
 
         self.chain = np.array([i for i, p in enumerate(self.density) for _ in range(int(p * self.length))])
-        assert len(self.chain) == self.length, "density does not produce correct chain length"
         
         if shuffle:
             np.random.shuffle(self.chain)
 
     """
-    Note that this ensures the uniform distribution over all particle configurations 
+    note that this ensures the uniform distribution over all particle configurations 
     are an equilibrium/stationary distribution. 
     """
     @staticmethod
@@ -48,7 +74,7 @@ class MultiSpeciesExclusionProcess:
 
         return True
 
-    def get_proj_vectors(self):
+    def get_projected_vectors(self):
         norm_vector = np.ones(self.dimension)
         n_hat = norm_vector / np.linalg.norm(norm_vector)
         I = np.eye(self.dimension)
@@ -73,23 +99,16 @@ class MultiSpeciesExclusionProcess:
 
         return normalized_coords
 
-    def monte_carlo_step(self):
-        i = np.random.randint(len(self.chain))
-        j = (i + 1) % len(self.chain)
+    def simulate(self, steps=100000):
+        rates_matrix = np.zeros((self.dimension, self.dimension), dtype=np.float64)
+        for (i, j), rate in self.rates.items():
+            rates_matrix[i, j] = rate
+        self.max_rate = max(self.rates.values()) if self.rates else 1.0
 
-        pair = (self.chain[i], self.chain[j])
-        rate = self.rates.get(pair, 0.0)
+        history = _jit_simulate(self.chain, rates_matrix, self.max_rate, steps)
+        self.chain = history[-1].copy()
 
-        if np.random.rand() < rate / max(self.rates.values()):
-            self.chain[i], self.chain[j] = self.chain[j], self.chain[i]
-
-    def simulate(self, steps=5000):
-        chains = [self.chain]
-        for _ in range(steps):
-            self.monte_carlo_step()
-            chains.append(self.chain)
-
-        return chains
+        return history
 
     def get_path(self):
         path = [np.zeros(self.dimension-1)]
@@ -100,9 +119,9 @@ class MultiSpeciesExclusionProcess:
     def get_chain(self):
         return self.chain
     
-    def plot_path_2d(self):
-        assert self.dimension == 3, "can only plot with d = 3"
-        path = self.get_path()
+    @staticmethod
+    def plot_path_2d(path):
+        assert len(path[0]) == 2, "can only plot with dimension = 4"
 
         plt.figure(figsize=(6, 6))
         plt.plot(path[:, 0], path[:, 1], "-o", markersize=2)
@@ -110,11 +129,12 @@ class MultiSpeciesExclusionProcess:
         plt.xlabel("h1")
         plt.ylabel("h2")
         plt.title("projected directed polymer path, d = 3")
+
         plt.show()
 
-    def plot_path_3d(self):
-        assert self.dimension == 4, "can only plot with d = 4"
-        path = self.get_path()
+    @staticmethod
+    def plot_path_3d(path):
+        assert len(path[0]) == 3, "can only plot with dimension = 4"
 
         fig = plt.figure(figsize=(6, 6))
         ax = fig.add_subplot(111, projection="3d")
