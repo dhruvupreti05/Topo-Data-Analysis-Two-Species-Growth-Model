@@ -1,13 +1,5 @@
 \documentclass{article}
 
-% cursor parking lot please place 
-% your cursor here when you go away
-% so other's can work :) 
-% -------------------------
-% |     |     |     |     |
-% |     |     |     |     |
-% -------------------------
-
 % libraries
 \usepackage{amsmath, amssymb, fullpage, hyperref, xcolor, minted, tcolorbox, enumitem} 
 \tcbuselibrary{minted, breakable}
@@ -22,7 +14,7 @@
 
 \begin{document}
 
-\section*{Introduction}
+\section{Introduction}
 
 These notes follow \href{https://arxiv.org/abs/1710.04019}{Chazal and Michel}. Topological Data Analysis (TDA) emerged from work in applied (algebraic) topology and computational geometry. TDA provides methods to exploit the topological and geometric structures of data that are often represented as points in Euclidean or more general metric spaces. 
 
@@ -38,9 +30,18 @@ Many standard methods in TDA rely on the following a standard pipeline:
     \item Finally, these extracted features can be used for visualization, interpretation, or as inputs to machine learning models.
 \end{enumerate}
 
-\section*{Metric spaces, Covers and Simplicial Complexes}
+\section{Metric spaces, Covers and Simplicial Complexes}
 
+The following are important definitions in Topology to consider before further analysis:
 
-Hi! 
+\textbf{Definition:} The Gromov-Haudorff distance, $d_{GH}$ between two compact metric spaces is the infinimum of the real number $r\geq 0$ such that there esists a metric space $(M,\rho)$ and two compact subspaces $C_1,C_2\subset M$ that are isometric to $M_1$ and $M_2$ and such that $d_H(C_1,C_2) \leq r$.
+
+\textbf{Definition:} Simplicial complexes can be seen as higher dimensional generalization of graphs. Given set,
+
+\[\mathbb{X} = \{x_0,\cdots,x_k\}\subset \mathbb{R}^d\] of $k+1$ affinley independent points\footnote{Collection of points that do not lie on the same flat, lower-dimensional space so 2 points don't sit on the same single point, 3 points don't line up in a straight line, and 4 points don't flatten onto the exact same surface, etc.} the $k$ dimensional simplex $\sigma = [x_0,\cdots,x_k]$ spanned by $\mathbb{X}$ is the \href{https://en.wikipedia.org/wiki/Convex_hull}{convex hull} of $\mathbb{X}$. The points of $\mathbb{X}$ are called the vertices of $\sigma$ and the simplexes spanned by the subsets of $\mathbb{X}$ are called the faces of $\sigma$. 
+
+\subsection{Building Simplicial Complexes from Data}
+
+Say you have data points $X = \{x_1,\cdots x_n\}$ then   
 
 \end{document}
