@@ -1,10 +1,9 @@
 import gudhi as gd
 
-class TopologicalDataAnalysis:
-    def __init__(self, exclusion_process):
-        self.exclusion_process = exclusion_process
-        
-    """
-    this class 
-    """
-    def getBettiNumber(self):
+"""
+the goal of this program is to implement TDA on point cloud 
+of mult-species exclusion processes. 
+"""
+
+if __name__ == "__main__":
+    print(":)")
